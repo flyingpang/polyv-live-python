@@ -1,19 +1,9 @@
 保利威视云直播
-
 --------------------
-
----------------------
-
-
-
 
 
 Polyv's API
-
 -------------
-
---------------
-
 
 
 + create_channel(password=None, player_color='#666666', auto_play=1)   **创建直播频道**
@@ -39,14 +29,8 @@ Polyv's API
 + update_channel_password(channel_id=None, password=None)  **修改频道密码**
 
 
-
 Usage
-
 ----------------
-
-----------------
-
-
 
 # Configure
 
