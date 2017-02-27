@@ -2,7 +2,7 @@
 --------------------
 
 
-Polyv's API
+# Polyv's API
 -------------
 
 
@@ -29,10 +29,10 @@ Polyv's API
 + update_channel_password(channel_id=None, password=None)  **修改频道密码**
 
 
-Usage
+# Usage
 ----------------
 
-# Configure
+## Configure
 
 在`polyv.conf.py`对以下参数进行配置。
 
