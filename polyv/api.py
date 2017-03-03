@@ -26,10 +26,10 @@ def create_channel(password=None, player_color='#666666', auto_play=1):
     if not password:
         password = str(uuid.uuid4())[:6]
     user_id = USER_ID
-
     str1 = "{app_secret}appId{app_id}autoPlay{autoplay}channelPasswd{password}name{name}playerColor{player_color}timestamp{timestamp}userId{user_id}{app_secret}".format(app_secret=app_secret, app_id=app_id, autoplay=auto_play, password=password, name=name, player_color=player_color, timestamp=timestamp, user_id=user_id)
-    data = dict()
-    data.update({
+
+    params = dict()
+    params.update({
         'appId': app_id,
         'autoPlay': auto_play,
         'name': name,
@@ -39,7 +39,7 @@ def create_channel(password=None, player_color='#666666', auto_play=1):
         'channelPasswd': password,
         'sign': make_sign(str1)
     })
-    response = requests.post(url, data=data)
+    response = requests.post(url, params=params)
 
     if response.json()['status'] != 'success':
         raise RequestException(response.text)
@@ -56,14 +56,21 @@ def delete_channel(channel_id=None):
     if not channel_id:
         raise MissingParameterException("missing channel_id parameter.")
 
+    url = 'http://api.live.polyv.net/v1/channels/{channel_id}'.format(channel_id=channel_id)
     app_id = APP_ID
     app_secret = APP_SECRET
     timestamp = int(time.time())
     user_id = USER_ID
-
     str1 = '{app_secret}appId{app_id}timestamp{timestamp}userId{user_id}{app_secret}'.format(app_secret=app_secret, app_id=app_id, timestamp=timestamp, user_id=user_id)
-    url = 'http://api.live.polyv.net/v1/channels/{channel_id}?appId={app_id}&timestamp={timestamp}&userId={user_id}&sign={sign}'.format(channel_id=channel_id, app_id=app_id, timestamp=timestamp, user_id=user_id, sign=make_sign(str1))
-    response = requests.delete(url)
+
+    params = dict()
+    params.update({
+        'appId': app_id,
+        'timestamp': timestamp,
+        'userId': user_id,
+        'sign': make_sign(str1)
+    })
+    response = requests.delete(url, params=params)
 
     if response.json()['status'] != 'success':
         raise RequestException(response.text)
@@ -80,6 +87,7 @@ def get_channel(channel_id=None):
     if not channel_id:
         raise MissingParameterException("missing channel_id parameter.")
 
+    url = 'http://api.live.polyv.net/v1/channels/{channel_id}'.format
     app_id = APP_ID
     app_secret = APP_SECRET
     timestamp = int(time.time())
@@ -288,4 +296,3 @@ def update_channel_password(channel_id=None, password=None):
     response = requests.post(url)
 
     return response.json()['status'] == "success"
-
