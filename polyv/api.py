@@ -296,3 +296,21 @@ def update_channel_password(channel_id=None, password=None):
     response = requests.post(url)
 
     return response.json()['status'] == "success"
+
+
+# 聊天室 watch token
+def watch_token():
+    """
+    http://dev.polyv.net/2016/09/gettoken/
+    """
+    timestamp = int(time.time())
+    str1 = '{timestamp}polyvsign'.format(timestamp=timestamp)
+    url = "http://api.live.polyv.net/watchtoken/gettoken"
+    params = {
+        'ts': timestamp,
+        'sign': make_sign(str1).lower()
+    }
+    return requests.get(url, params=params).text.strip()
+
+if __name__ == "__main__":
+    print watch_token()
